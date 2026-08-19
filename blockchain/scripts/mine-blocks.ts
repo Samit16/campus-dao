@@ -3,9 +3,13 @@ import { network } from "hardhat";
 async function main() {
   const { ethers } = await network.create();
 
-  await ethers.provider.send("evm_mine", []);
+  const blocks = 30;
 
-  console.log("Mined 1 block.");
+  for (let i = 0; i < blocks; i++) {
+    await ethers.provider.send("evm_mine", []);
+  }
+
+  console.log(`Mined ${blocks} blocks.`);
 }
 
 main().catch((error) => {
