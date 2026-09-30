@@ -1,18 +1,7 @@
 import Link from "next/link";
+import { Icon } from "@/components/ui/Icon";
+import { WalletConnectButton } from "@/components/wallet/WalletDisplay";
 
-function Icon({
-  children,
-  className = "",
-}: {
-  children: string;
-  className?: string;
-}) {
-  return (
-    <span className={`material-symbols-outlined ${className}`}>
-      {children}
-    </span>
-  );
-}
 export default function ConnectWalletPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#121315] font-sans text-[#E3E2E3]">
@@ -83,8 +72,10 @@ export default function ConnectWalletPage() {
 
           {/* Wallet options */}
           <div className="space-y-4">
+            <WalletConnectButton variant="modal" />
             <button
               type="button"
+              disabled
               className="group flex w-full items-center justify-between rounded-lg border border-[#444748] bg-[#1B1C1D] p-4 transition-all hover:border-[#8E9192] hover:bg-[#343536]"
             >
               <div className="flex items-center gap-4">

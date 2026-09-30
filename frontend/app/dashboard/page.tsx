@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { AppShell } from "@/components/layout/AppShell";
+import { Icon } from "@/components/ui/Icon";
 
 const stats = [
   { label: "Voting Power", value: "12.4 CGT", progress: true },
@@ -7,87 +9,16 @@ const stats = [
   { label: "Participation", value: "88%", pattern: true },
 ];
 
-const navigation = [
-  ["dashboard", "Dashboard", "/dashboard"],
-  ["gavel", "Proposals", "/proposals"],
-  ["account_balance_wallet", "Treasury", "/treasury"],
-  ["history", "Activity", "/activity"],
-  ["person", "My Governance", "/governance"],
-  ["settings", "Settings", "/settings"],
-] as const;
-
 const activity = [
   ["Voted FOR on #023", "2 hours ago", true],
   ["Proposal #023 Executed", "1 day ago", false],
   ["Delegated 50 CGT to 0x1A...3F", "3 days ago", false],
 ] as const;
 
-function Icon({ children, className = "" }: { children: string; className?: string }) {
-  return <span className={`material-symbols-outlined ${className}`}>{children}</span>;
-}
-
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#08090A] text-[#E3E2E3]">
-      <nav className="fixed inset-y-0 left-0 z-40 hidden w-70 flex-col border-r border-[#444748] bg-[#121315] p-4 md:flex">
-        <div className="mb-16 flex flex-col gap-2 px-2">
-          <span className="text-base font-bold text-white">CampusDAO</span>
-          <span className="text-xs text-[#C4C7C8]">Decentralized Governance</span>
-        </div>
-
-        <Link
-          href="/proposals/create"
-          className="mb-8 flex w-full items-center justify-center gap-2 rounded bg-white px-4 py-2 text-sm font-semibold text-[#08090A] hover:bg-[#C6C6C7]"
-        >
-          <Icon>add</Icon>
-          Create Proposal
-        </Link>
-
-        <div className="flex grow flex-col gap-2">
-          {navigation.map(([icon, label, href]) => (
-            <Link
-              key={label}
-              href={href}
-              className={`flex items-center gap-4 rounded-lg p-2 transition-all ${
-                label === "Dashboard"
-                  ? "bg-[#454748] font-semibold text-white"
-                  : "text-[#C4C7C8] hover:bg-[#343536] hover:text-white"
-              }`}
-            >
-              <Icon>{icon}</Icon>
-              <span className="text-sm">{label}</span>
-            </Link>
-          ))}
-        </div>
-
-        <Link
-          href="/docs"
-          className="flex items-center gap-4 rounded-lg p-2 text-sm text-[#C4C7C8] hover:bg-[#343536] hover:text-white"
-        >
-          <Icon>help_outline</Icon>
-          Governance Guide
-        </Link>
-      </nav>
-
-      <main className="min-h-screen md:ml-[280px]">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-end border-b border-[#444748] bg-[#08090A] px-6">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 text-xs text-[#C4C7C8]">
-              <div className="h-2 w-2 animate-pulse rounded-full bg-white" />
-              Mainnet
-            </div>
-            <button aria-label="Notifications" className="text-[#C4C7C8] hover:text-white">
-              <Icon>notifications</Icon>
-            </button>
-            <div className="flex items-center gap-2 rounded-full border border-[#272829] bg-[#101112] px-3 py-1 text-xs text-white">
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#343536] text-[10px]">
-                C
-              </div>
-              0x7A...91C
-            </div>
-          </div>
-        </header>
-
+    <AppShell activeLabel="Dashboard" variant="dashboard" footer>
+      <main className="min-h-screen overflow-x-hidden bg-[#08090A]">
         <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-16 px-4 py-8 md:px-10">
           <h1 className="text-4xl font-semibold tracking-tight text-white">Dashboard</h1>
 
@@ -215,20 +146,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <footer className="border-t border-[#444748] bg-[#08090A] px-4 py-8 md:px-10">
-          <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 md:flex-row">
-            <p className="text-xs text-[#C4C7C8]">
-              © 2024 CampusDAO. Institutional Student Governance.
-            </p>
-            <div className="flex gap-6 text-xs">
-              <Link href="/terms" className="text-[#C4C7C8] hover:text-white">Terms</Link>
-              <Link href="/privacy" className="text-[#C4C7C8] hover:text-white">Privacy</Link>
-              <a href="#" className="text-[#C4C7C8] hover:text-white">Twitter</a>
-              <a href="#" className="text-[#C4C7C8] hover:text-white">Discord</a>
-            </div>
-          </div>
-        </footer>
       </main>
-    </div>
+    </AppShell>
   );
 }

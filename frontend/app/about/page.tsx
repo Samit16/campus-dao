@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { Footer } from "@/components/layout/Footer";
+import { PublicNavigation } from "@/components/layout/PublicNavigation";
+import { Icon } from "@/components/ui/Icon";
 
 const mechanics = [
   {
@@ -21,66 +24,10 @@ const mechanics = [
   },
 ] as const;
 
-function Icon({
-  children,
-  className = "",
-}: {
-  children: string;
-  className?: string;
-}) {
-  return (
-    <span className={`material-symbols-outlined ${className}`}>
-      {children}
-    </span>
-  );
-}
-
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[#08090A] text-[#E3E2E3] antialiased">
-      {/* Public navigation */}
-      <nav className="sticky top-0 z-50 border-b border-[#444748] bg-[#121315]">
-        <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-4 md:px-10">
-          <div className="flex items-center gap-8">
-            <Link
-              href="/"
-              className="text-base font-bold text-white"
-            >
-              CampusDAO
-            </Link>
-
-            <div className="hidden items-center gap-4 md:flex">
-              <Link
-                href="/about"
-                className="border-b-2 border-white pb-1 text-base text-white"
-              >
-                About
-              </Link>
-
-              <Link
-                href="/governance"
-                className="text-base text-[#C4C7C8] transition-colors hover:text-white"
-              >
-                Governance
-              </Link>
-
-              <Link
-                href="/treasury"
-                className="text-base text-[#C4C7C8] transition-colors hover:text-white"
-              >
-                Treasury
-              </Link>
-            </div>
-          </div>
-
-          <Link
-            href="/connect-wallet"
-            className="rounded bg-white px-4 py-2 text-sm font-semibold text-[#08090A] transition-opacity hover:opacity-90"
-          >
-            Connect Wallet
-          </Link>
-        </div>
-      </nav>
+      <PublicNavigation active="about" />
 
       <main className="mx-auto flex w-full max-w-[1440px] flex-grow flex-col items-center gap-16 px-4 py-16 md:px-10">
         {/* Hero */}
@@ -210,29 +157,7 @@ export default function AboutPage() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="mt-auto border-t border-[#444748] bg-[#121315]">
-        <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-10">
-          <p className="text-xs text-[#C4C7C8]">
-            © 2024 CampusDAO. Institutional Student Governance.
-          </p>
-
-          <div className="flex gap-6 text-xs">
-            <Link href="/terms" className="text-[#C4C7C8] hover:text-white">
-              Terms
-            </Link>
-            <Link href="/privacy" className="text-[#C4C7C8] hover:text-white">
-              Privacy
-            </Link>
-            <a href="#" className="text-[#C4C7C8] hover:text-white">
-              Twitter
-            </a>
-            <a href="#" className="text-[#C4C7C8] hover:text-white">
-              Discord
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

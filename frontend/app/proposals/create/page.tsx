@@ -1,13 +1,6 @@
 import Link from "next/link";
-
-const navigation = [
-  ["dashboard", "Dashboard", "/dashboard"],
-  ["gavel", "Proposals", "/proposals"],
-  ["account_balance_wallet", "Treasury", "/treasury"],
-  ["history", "Activity", "/activity"],
-  ["person", "My Governance", "/governance"],
-  ["settings", "Settings", "/settings"],
-] as const;
+import { AppShell } from "@/components/layout/AppShell";
+import { Icon } from "@/components/ui/Icon";
 
 const editorTools = [
   "format_bold",
@@ -18,104 +11,10 @@ const editorTools = [
   "link",
 ];
 
-function Icon({
-  children,
-  className = "",
-}: {
-  children: string;
-  className?: string;
-}) {
-  return (
-    <span className={`material-symbols-outlined ${className}`}>
-      {children}
-    </span>
-  );
-}
-
 export default function CreateProposalPage() {
   return (
-    <div className="min-h-screen bg-[#121315] text-[#E3E2E3]">
-      {/* Sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[280px] flex-col border-r border-[#444748] bg-[#121315] p-4 md:flex">
-        <div className="mb-16 flex items-center gap-2 px-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded bg-white text-[#08090A]">
-            <Icon className="text-[20px]">account_balance</Icon>
-          </div>
-          <div>
-            <h1 className="text-base font-bold text-white">CampusDAO</h1>
-            <p className="text-xs text-[#C4C7C8]">
-              Decentralized Governance
-            </p>
-          </div>
-        </div>
-
-        <Link
-          href="/proposals/create"
-          className="mb-8 flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-[#08090A] transition-opacity hover:opacity-90"
-        >
-          <Icon className="text-[18px]">add</Icon>
-          Create Proposal
-        </Link>
-
-        <nav className="flex-1 space-y-1">
-          {navigation.map(([icon, label, href]) => {
-            const active = label === "Proposals";
-
-            return (
-              <Link
-                key={label}
-                href={href}
-                className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all ${
-                  active
-                    ? "bg-[#454748] font-semibold text-white"
-                    : "text-[#C4C7C8] hover:bg-[#343536] hover:text-white"
-                }`}
-              >
-                <Icon className="text-[20px]">{icon}</Icon>
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="mt-auto border-t border-[#444748] pt-4">
-          <Link
-            href="/docs"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[#C4C7C8] transition-colors hover:bg-[#343536] hover:text-white"
-          >
-            <Icon className="text-[20px]">help_outline</Icon>
-            Governance Guide
-          </Link>
-        </div>
-      </aside>
-
-      {/* Main */}
-      <main className="min-h-screen md:ml-[280px]">
-        {/* Top bar */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-end border-b border-[#444748] bg-[#121315] px-6">
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="relative flex h-10 w-10 items-center justify-center rounded-full text-[#C4C7C8] transition-colors hover:bg-[#343536] hover:text-white"
-            >
-              <Icon className="text-[20px]">notifications</Icon>
-              <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-white" />
-            </button>
-
-            <div className="h-6 w-px bg-[#444748]" />
-
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded border border-[#444748] bg-[#343536]">
-                <Icon className="text-[18px] text-[#C4C7C8]">person</Icon>
-              </div>
-              <span className="font-mono text-sm text-[#C4C7C8]">
-                0x1234...abcd
-              </span>
-            </div>
-          </div>
-        </header>
-
+    <AppShell activeLabel="Proposals">
+      <main className="min-h-screen">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-8 md:px-10 md:py-10">
           <div className="mx-auto max-w-[1200px]">
             {/* Page heading */}
@@ -356,6 +255,6 @@ export default function CreateProposalPage() {
           </div>
         </div>
       </main>
-    </div>
+    </AppShell>
   );
 }

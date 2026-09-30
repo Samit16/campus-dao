@@ -1,13 +1,6 @@
 import Link from "next/link";
-
-const navItems = [
-  ["dashboard", "Dashboard", "/dashboard"],
-  ["gavel", "Proposals", "/proposals"],
-  ["account_balance_wallet", "Treasury", "/treasury"],
-  ["history", "Activity", "/activity"],
-  ["person", "My Governance", "/governance"],
-  ["settings", "Settings", "/settings"],
-] as const;
+import { AppShell } from "@/components/layout/AppShell";
+import { Icon } from "@/components/ui/Icon";
 
 const assets = [
   { symbol: "CAMP", name: "Governance Token", amount: "150,000", value: "$15,000.00", icon: "token" },
@@ -21,62 +14,10 @@ const transactions = [
   ["Outgoing", "arrow_upward", "-50,000", "CAMP", "PROP-041", "Oct 18, 2024 16:45"],
 ] as const;
 
-function Icon({ children, className = "" }: { children: string; className?: string }) {
-  return <span className={`material-symbols-outlined ${className}`}>{children}</span>;
-}
-
 export default function TreasuryPage() {
   return (
-    <div className="min-h-screen bg-[#08090A] text-[#E3E2E3] antialiased">
-      <nav className="fixed inset-y-0 left-0 z-40 hidden w-[280px] flex-col border-r border-[#444748] bg-[#121315] p-4 md:flex">
-        <div className="mb-8">
-          <h1 className="text-base font-bold text-white">CampusDAO</h1>
-          <p className="text-xs text-[#C4C7C8]">Decentralized Governance</p>
-        </div>
-
-        <ul className="flex flex-grow flex-col gap-2">
-          {navItems.map(([icon, label, href]) => (
-            <li key={label}>
-              <Link
-                href={href}
-                className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm transition-all ${
-                  label === "Treasury"
-                    ? "scale-[0.98] bg-[#454748] font-semibold text-white"
-                    : "text-[#C4C7C8] hover:bg-[#343536] hover:text-white"
-                }`}
-              >
-                <Icon>{icon}</Icon>
-                {label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <Link href="/proposals/create" className="mt-auto w-full rounded-lg bg-white px-4 py-2 text-center text-sm font-semibold text-[#08090A] hover:opacity-90">
-          Create Proposal
-        </Link>
-
-        <div className="mt-4 border-t border-[#444748] pt-4">
-          <Link href="/docs" className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-[#C4C7C8] hover:bg-[#343536] hover:text-white">
-            <Icon>help_outline</Icon>
-            Governance Guide
-          </Link>
-        </div>
-      </nav>
-
-      <main className="min-h-screen md:ml-[280px]">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-end border-b border-[#444748] bg-[#08090A] px-6">
-          <div className="flex items-center gap-4">
-            <button aria-label="Notifications" className="text-[#C4C7C8] hover:text-white">
-              <Icon>notifications</Icon>
-            </button>
-            <div className="rounded-full border border-[#444748] bg-[#121315] px-3 py-1 text-sm text-[#C4C7C8]">0x1234...abcd</div>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#444748] bg-[#343536]">
-              <Icon className="text-sm text-[#C4C7C8]">person</Icon>
-            </div>
-          </div>
-        </header>
-
+    <AppShell activeLabel="Treasury">
+      <main className="min-h-screen bg-[#08090A]">
         <div className="overflow-y-auto px-4 py-10 md:px-10">
           <div className="mx-auto max-w-[1200px] space-y-16">
             <section className="flex flex-col gap-2">
@@ -148,18 +89,7 @@ export default function TreasuryPage() {
           </div>
         </div>
 
-        <footer className="border-t border-[#444748] bg-[#08090A]">
-          <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-4 py-8 md:flex-row md:px-10">
-            <p className="text-xs text-[#C4C7C8]">© 2024 CampusDAO. Institutional Student Governance.</p>
-            <div className="flex gap-4 text-xs">
-              <Link href="/terms" className="text-[#C4C7C8] hover:text-white">Terms</Link>
-              <Link href="/privacy" className="text-[#C4C7C8] hover:text-white">Privacy</Link>
-              <a href="#" className="text-[#C4C7C8] hover:text-white">Twitter</a>
-              <a href="#" className="text-[#C4C7C8] hover:text-white">Discord</a>
-            </div>
-          </div>
-        </footer>
       </main>
-    </div>
+    </AppShell>
   );
 }
