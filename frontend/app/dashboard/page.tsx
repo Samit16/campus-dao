@@ -1,13 +1,16 @@
+"use client";
+
 import Link from "next/link";
+import { formatEther, formatUnits } from "viem";
+import { useAccount } from "wagmi";
 import { AppShell } from "@/components/layout/AppShell";
 import { Icon } from "@/components/ui/Icon";
-
-const stats = [
-  { label: "Voting Power", value: "12.4 CGT", progress: true },
-  { label: "Active Proposals", value: "3" },
-  { label: "Votes Cast", value: "24" },
-  { label: "Participation", value: "88%", pattern: true },
-];
+import {
+  useCampusTokenBalance,
+  useCampusTokenDelegate,
+  useCampusTokenVotes,
+  useCampusTreasuryBalance,
+} from "@/lib/contracts/hooks";
 
 const activity = [
   ["Voted FOR on #023", "2 hours ago", true],
@@ -16,6 +19,18 @@ const activity = [
 ] as const;
 
 export default function DashboardPage() {
+  const { address } = useAccount();
+  const { data: tokenBalance } = useCampusTokenBalance(address);
+  const { data: votingPower } = useCampusTokenVotes(address);
+  const { data: delegate } = useCampusTokenDelegate(address);
+  const { data: treasuryBalance } = useCampusTreasuryBalance();
+  const stats = [
+    { label: "Voting Power", value: formatTokenAmount(votingPower), progress: true },
+    { label: "Token Balance", value: formatTokenAmount(tokenBalance) },
+    { label: "Delegate", value: formatAddress(delegate) },
+    { label: "Participation", value: "—", pattern: true },
+  ];
+
   return (
     <AppShell activeLabel="Dashboard" variant="dashboard" footer>
       <main className="min-h-screen overflow-x-hidden bg-[#08090A]">
@@ -111,16 +126,12 @@ export default function DashboardPage() {
                   Treasury Summary
                 </h2>
                 <div className="rounded border border-[#272829] bg-[#101112] p-4">
-                  {[
-                    ["USDC", "$1.2M"],
-                    ["ETH", "450.5"],
-                    ["CGT", "2.5M"],
-                  ].map(([asset, value]) => (
-                    <div key={asset} className="flex justify-between border-b border-[#272829] py-2 last:border-0">
-                      <span className="text-sm">{asset}</span>
-                      <span className="text-sm font-medium text-white">{value}</span>
-                    </div>
-                  ))}
+                  <div className="flex justify-between py-2">
+                    <span className="text-sm">ETH</span>
+                    <span className="text-sm font-medium text-white">
+                      {treasuryBalance === undefined ? "—" : formatEther(treasuryBalance)}
+                    </span>
+                  </div>
                 </div>
               </section>
 
@@ -145,8 +156,15 @@ export default function DashboardPage() {
             </aside>
           </div>
         </div>
-
       </main>
     </AppShell>
   );
+}
+
+function formatTokenAmount(value?: bigint) {
+  return value === undefined ? "—" : `${formatUnits(value, 18)} CGT`;
+}
+
+function formatAddress(address?: string) {
+  return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "—";
 }

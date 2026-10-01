@@ -1,12 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { formatEther } from "viem";
 import { AppShell } from "@/components/layout/AppShell";
 import { Icon } from "@/components/ui/Icon";
-
-const assets = [
-  { symbol: "CAMP", name: "Governance Token", amount: "150,000", value: "$15,000.00", icon: "token" },
-  { symbol: "ETH", name: "Ethereum", amount: "2.5", value: "$6,500.00", icon: "currency_exchange" },
-  { symbol: "USDC", name: "USD Coin", amount: "3,320.42", value: "$3,320.42", icon: "attach_money" },
-];
+import { useCampusTreasuryBalance } from "@/lib/contracts/hooks";
 
 const transactions = [
   ["Incoming", "arrow_downward", "+5,000", "USDC", "-", "Oct 24, 2024 14:30"],
@@ -15,6 +13,12 @@ const transactions = [
 ] as const;
 
 export default function TreasuryPage() {
+  const { data: treasuryBalance } = useCampusTreasuryBalance();
+  const formattedBalance = treasuryBalance === undefined ? "—" : formatEther(treasuryBalance);
+  const assets = [
+    { symbol: "ETH", name: "Ethereum", amount: formattedBalance, value: "Live contract balance", icon: "currency_exchange" },
+  ];
+
   return (
     <AppShell activeLabel="Treasury">
       <main className="min-h-screen bg-[#08090A]">
@@ -22,8 +26,8 @@ export default function TreasuryPage() {
           <div className="mx-auto max-w-[1200px] space-y-16">
             <section className="flex flex-col gap-2">
               <h2 className="text-xs font-semibold uppercase tracking-[0.1em] text-[#C4C7C8]">DAO Treasury</h2>
-              <div className="text-5xl font-semibold tracking-tight text-white md:text-[72px] md:leading-[1.1]">$24,820.42</div>
-              <p className="text-sm text-[#C4C7C8]">Total Value Locked (TVL) across all DAO controlled addresses.</p>
+              <div className="text-5xl font-semibold tracking-tight text-white md:text-[72px] md:leading-[1.1]">{formattedBalance} ETH</div>
+              <p className="text-sm text-[#C4C7C8]">Live ETH balance held by the configured CampusTreasury contract.</p>
             </section>
 
             <section className="space-y-4">

@@ -1,5 +1,6 @@
 import { Icon } from "@/components/ui/Icon";
 import { WalletDisplay } from "@/components/wallet/WalletDisplay";
+import { targetChain } from "@/lib/wagmi";
 
 type HeaderProps = {
   variant?: "dashboard" | "default" | "governance";
@@ -24,7 +25,7 @@ export function Header({ variant = "default", search = false }: HeaderProps) {
       )}
 
       <div className={`flex items-center ${isDashboard ? "gap-6" : "gap-4"} ${search ? "ml-6" : ""}`}>
-        {isDashboard && <div className="flex items-center gap-2 text-xs text-[#C4C7C8]"><div className="h-2 w-2 animate-pulse rounded-full bg-white" />Mainnet</div>}
+        {isDashboard && <div className="flex items-center gap-2 text-xs text-[#C4C7C8]"><div className="h-2 w-2 animate-pulse rounded-full bg-white" />{targetChain.name}</div>}
         <button type="button" aria-label="Notifications" className={`${isGovernance ? "flex h-10 w-10 items-center justify-center rounded-full" : ""} text-[#C4C7C8] hover:bg-[#343536] hover:text-white`}><Icon className={isGovernance ? "text-[20px]" : ""}>notifications</Icon></button>
         {isGovernance && <div className="border-l border-[#272829] pl-2"><WalletDisplay /></div>}
         {!isGovernance && <WalletDisplay variant={isDashboard ? "dashboard" : "default"} />}
